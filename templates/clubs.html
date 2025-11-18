@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Hackathon Club Matches</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #fff;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  /* Top Bar */
+  .top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #fff;
+    color: #000;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    box-sizing: border-box;
+  }
+
+  .top-bar a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+
+  .top-bar a:hover {
+    color: #555;
+  }
+
+  h1 {
+    margin-top: 6rem;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    color: #c40000;
+  }
+
+  p.subtitle {
+    text-align: center;
+    color: #660000;
+    margin-bottom: 2rem;
+  }
+
+  .club-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  .club-card {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .club-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  }
+
+  .club-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+    color: #c40000;
+  }
+
+  .match-score {
+    font-weight: 600;
+    color: #ff4d4d;
+    margin-left: auto;
+  }
+
+  .score-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.7rem;
+  }
+
+  .score-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff0000, #ff4d4d);
+    border-radius: 4px 0 0 4px;
+  }
+
+  .club-card p {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 0.5rem;
+  }
+
+  .interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .interest-tag {
+    background-color: #ffcccc;
+    padding: 0.3rem 0.7rem;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    color: #800000;
+    font-weight: 500;
+  }
+
+  .join-btn {
+    background: linear-gradient(90deg, #ff4d4d, #c40000);
+    color: #fff;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .join-btn:hover {
+    background: linear-gradient(90deg, #c40000, #ff4d4d);
+  }
+
+  /* Popup Form Styles */
+  #registerPopup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+
+  #registerPopup .form-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  #registerPopup h2 {
+    color: #c40000;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  #registerPopup label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 500;
+  }
+
+  #registerPopup input, #registerPopup textarea, #registerPopup button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+
+  #registerPopup button {
+    margin-top: 1.5rem;
+    background: linear-gradient(90deg, #ff4d4d, #c40000);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  #registerPopup button:hover {
+    background: linear-gradient(90deg, #c40000, #ff4d4d);
+  }
+
+  #registerPopup .close-btn {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #c40000;
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <a href="index.html">← Back to Home</a>
+</div>
+
+<h1>Your Perfect Hackathon Club Matches!</h1>
+<p class="subtitle">Based on your interests, here are the clubs that best match your skills and goals.</p>
+
+<div class="club-grid">
+
+  <div class="club-card">
+    <h3>🤖 Evolve AI <span class="match-score">22%</span></h3>
+    <div class="score-bar"><div class="score-fill" style="width:22%"></div></div>
+    <p>Specialized in AI/ML projects and hackathons. Perfect for AI enthusiasts.</p>
+    <div class="interests">
+      <span class="interest-tag">AI</span>
+      <span class="interest-tag">Machine Learning</span>
+      <span class="interest-tag">Innovation</span>
+    </div>
+    <button class="join-btn" data-club="Evolve AI">Join Club</button>
+  </div>
+
+  <div class="club-card">
+    <h3>💻 Coding Ninjas <span class="match-score">22%</span></h3>
+    <div class="score-bar"><div class="score-fill" style="width:22%"></div></div>
+    <p>Full-stack development hackathons with real-world problem solving.</p>
+    <div class="interests">
+      <span class="interest-tag">Web Dev</span>
+      <span class="interest-tag">App Dev</span>
+      <span class="interest-tag">Coding</span>
+    </div>
+    <button class="join-btn" data-club="Coding Ninjas">Join Club</button>
+  </div>
+
+  <div class="club-card">
+    <h3>⚡ ACM <span class="match-score">15%</span></h3>
+    <div class="score-bar"><div class="score-fill" style="width:15%"></div></div>
+    <p>Global tech community, organizes coding competitions, seminars, and hackathons.</p>
+    <div class="interests">
+      <span class="interest-tag">Coding</span>
+      <span class="interest-tag">Seminars</span>
+      <span class="interest-tag">Competitions</span>
+    </div>
+    <button class="join-btn" data-club="ACM">Join Club</button>
+  </div>
+
+  <div class="club-card">
+    <h3>🔬 IEEE <span class="match-score">30%</span></h3>
+    <div class="score-bar"><div class="score-fill" style="width:30%"></div></div>
+    <p>Technical society conducting hardware, IoT, and innovation-based hackathons worldwide.</p>
+    <div class="interests">
+      <span class="interest-tag">IoT</span>
+      <span class="interest-tag">Hardware</span>
+      <span class="interest-tag">Innovation</span>
+    </div>
+    <button class="join-btn" data-club="IEEE">Join Club</button>
+  </div>
+
+</div>
+
+<!-- Popup Registration Form -->
+<div id="registerPopup">
+  <div class="form-container">
+    <span class="close-btn">&times;</span>
+    <h2>Register for a Club</h2>
+    <form id="registerForm">
+      <label for="regName">Full Name</label>
+      <input type="text" id="regName" name="name" required>
+
+      <label for="regEmail">Email</label>
+      <input type="email" id="regEmail" name="email" required>
+
+      <label for="regClub">Club</label>
+      <input type="text" id="regClub" name="club" readonly>
+
+      <button type="submit">Submit Registration</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Show popup and fill club name
+  const joinButtons = document.querySelectorAll('.join-btn');
+  const popup = document.getElementById('registerPopup');
+  const clubInput = document.getElementById('regClub');
+  const closeBtn = document.querySelector('#registerPopup .close-btn');
+
+  joinButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      clubInput.value = btn.getAttribute('data-club');
+      popup.style.display = 'flex';
+    });
+  });
+
+  closeBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+  });
+
+  window.addEventListener('click', (e) => {
+    if(e.target == popup) popup.style.display = 'none';
+  });
+
+  // Handle form submission
+  document.getElementById('registerForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert("Registration submitted for " + clubInput.value + "!");
+    this.reset();
+    popup.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>

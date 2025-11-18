@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Club Interest Form</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-image: 
+        linear-gradient(rgba(233, 164, 164, 0.9), rgba(252, 246, 246, 0.9)),
+        url('https://www.chitkara.edu.in/wp-content/uploads/2019/02/Campus-leadership.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      width: 380px;
+      text-align: center;
+      color: #333;
+      margin-top: 50px;
+    }
+
+    h1 {
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #b30000;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 0.6rem 0 0.2rem;
+      font-weight: 600;
+      color: #222;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+      outline: none;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      background: #fff;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #ff4d4d;
+      box-shadow: 0 0 6px rgba(255, 77, 77, 0.5);
+    }
+
+    button {
+      background: #ff4d4d;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #c40000;
+      transform: scale(1.05);
+    }
+
+    /* Chatbot Styles */
+    .chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+    }
+
+    .chatbot-header {
+      background: #ff4d4d;
+      color: #fff;
+      padding: 10px;
+      border-radius: 15px 15px 0 0;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+
+    .message.user {
+      background: #ff4d4d;
+      color: #fff;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    .message.bot {
+      background: #e0e0e0;
+      color: #333;
+    }
+
+    .chatbot-input {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+    }
+
+    .chatbot-input input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      outline: none;
+      margin-right: 5px;
+    }
+
+    .chatbot-input button {
+      flex: 1;
+      background: #ff4d4d;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .chatbot-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ff4d4d;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 1001;
+    }
+
+    .chatbot-toggle:hover {
+      background: #c40000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🎓 STUDENT CLUB INTEREST FORM</h1>
+
+    <form id="clubForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required placeholder="Enter your name">
+
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" required placeholder="Enter your age">
+
+      <label for="year">Year:</label>
+      <select id="year" name="year" required>
+        <option value="">Select Year</option>
+        <option value="1st">1st Year</option>
+        <option value="2nd">2nd Year</option>
+        <option value="3rd">3rd Year</option>
+        <option value="4th">4th Year</option>
+      </select>
+
+      <label for="stream">Stream:</label>
+      <input type="text" id="stream" name="stream" placeholder="e.g. CSE, ECE, ME" required>
+
+      <label for="interest">Select Your Interest:</label>
+      <select id="interest" name="interest" required>
+        <option value="">-- Choose One --</option>
+        <option value="coding">💻 Coding</option>
+        <option value="sports">⚽ Sports</option>
+        <option value="music">🎵 Music</option>
+        <option value="art">🎨 Art</option>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- Chatbot Toggle Button -->
+  <button class="chatbot-toggle" id="chatbotToggle">💬</button>
+
+  <!-- Chatbot Container -->
+  <div class="chatbot-container" id="chatbot">
+    <div class="chatbot-header">Club Assistant Chatbot</div>
+    <div class="chatbot-messages" id="chatMessages">
+      <div class="message bot">Hello! I'm here to help with your club interests. Ask me anything about coding, sports, music, or art clubs!</div>
+    </div>
+    <div class="chatbot-input">
+      <input type="text" id="chatInput" placeholder="Type your message...">
+      <button id="sendButton">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // --- FORM SUBMISSION ---
+    document.getElementById("clubForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = {
+        name: document.getElementById("name").value,
+        age: document.getElementById("age").value,
+        year: document.getElementById("year").value,
+        stream: document.getElementById("stream").value,
+        interest: document.getElementById("interest").value
+      };
+
+      try {
+        const response = await fetch("/submit_form", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert("✅ Form submitted successfully!");
+          window.location.href = `${formData.interest}.html`;
+        } else {
+          alert("❌ Error: " + result.error);
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("⚠️ Failed to submit form.");
+      }
+    });
+    // --- CHATBOT FUNCTIONALITY ---
+
+// REMOVE THE OLD API KEY & apiUrl (Never expose API key in frontend!)
+
+const chatbot = document.getElementById('chatbot');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendButton = document.getElementById('sendButton');
+const toggleButton = document.getElementById('chatbotToggle');
+
+// Toggle chatbot visibility
+toggleButton.addEventListener('click', () => {
+  chatbot.style.display = chatbot.style.display === 'flex' ? 'none' : 'flex';
+});
+
+// Check if message is related to clubs
+function isClubRelated(message) {
+  const clubKeywords = [
+    'coding', 'sports', 'music', 'art',
+    'programming', 'football', 'basketball',
+    'soccer', 'painting', 'drawing',
+    'singing', 'guitar', 'piano'
+  ];
+
+  return clubKeywords.some(keyword =>
+    message.toLowerCase().includes(keyword)
+  );
+}
+
+// Send message function
+async function sendMessage(message) {
+  addMessage(message, 'user');
+
+  // Club topic restriction
+  if (!isClubRelated(message)) {
+    addMessage('❌ I can only help with coding, sports, music, or art!', 'bot');
+    return;
+  }
+
+  try {
+    const response = await fetch("/chatbot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    });
+
+    const data = await response.json();
+    addMessage(data.reply, 'bot');
+
+  } catch (err) {
+    console.error("Chatbot Error:", err);
+    addMessage("⚠️ Server error. Try again later.", "bot");
+  }
+}
+
+// Add message to UI
+function addMessage(text, sender) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${sender}`;
+  messageDiv.textContent = text;
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Send button click
+sendButton.addEventListener('click', () => {
+  const message = chatInput.value.trim();
+  if (message) {
+    sendMessage(message);
+    chatInput.value = '';
+  }
+});
+
+// Enter key sends message
+chatInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    sendButton.click();
+  }
+});
+
+  </script>
+
+</body>
+</html>
